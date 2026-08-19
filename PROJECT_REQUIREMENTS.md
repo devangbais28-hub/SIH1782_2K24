@@ -1,7 +1,7 @@
-# TitleGuard — Project Requirements & Setup Guide
+# Nirnay — Project Requirements & Setup Guide
 
 > **Last Updated:** August 2026
-> Everything you need to know to set up, run, and deploy the TitleGuard system.
+> Everything you need to know to set up, run, and deploy the Nirnay system.
 
 ---
 

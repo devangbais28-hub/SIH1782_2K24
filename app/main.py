@@ -17,7 +17,7 @@ settings = get_settings()
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     # Startup actions
-    logger.info("Initializing TitleGuard application...")
+    logger.info("Initializing Nirnay application...")
     Base.metadata.create_all(bind=engine)
     store = get_faiss_store()
     if store.is_healthy():
@@ -26,11 +26,11 @@ async def lifespan(app: FastAPI):
         logger.warning("FAISS index is not yet built or missing. Build via build_faiss_index script.")
     yield
     # Shutdown actions
-    logger.info("TitleGuard application shutting down...")
+    logger.info("Nirnay application shutting down...")
 
 
 app = FastAPI(
-    title="TitleGuard API",
+    title="Nirnay API",
     description="AI-powered publication title similarity and conflict-screening system.",
     version="1.0.0",
     lifespan=lifespan
@@ -63,7 +63,7 @@ def serve_index():
     index_path = os.path.join(FRONTEND_DIR, "index.html")
     if os.path.exists(index_path):
         return FileResponse(index_path)
-    return JSONResponse({"message": "TitleGuard API is running. Documentation available at /docs"})
+    return JSONResponse({"message": "Nirnay API is running. Documentation available at /docs"})
 
 
 @app.get("/verify.html", include_in_schema=False)

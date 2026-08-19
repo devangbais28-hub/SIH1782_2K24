@@ -150,9 +150,21 @@ function renderResults(data) {
     reasonsList.appendChild(li);
   });
 
-  // Render Matches
+  // Render Matches — show first 5 initially, with Show All toggle
   matchesList.innerHTML = '';
-  data.top_matches.forEach(match => {
+  const allMatches = data.top_matches || [];
+  const initialCount = 5;
+  const showAllBtn = document.getElementById('showAllBtn');
+  const showAllBtnText = document.getElementById('showAllBtnText');
+  const showAllBtnIcon = document.getElementById('showAllBtnIcon');
+  const matchesScrollWrapper = document.getElementById('matchesScrollWrapper');
+  const matchStats = document.getElementById('matchStats');
+
+  // Reset state
+  let isShowingAll = false;
+  if (matchesScrollWrapper) matchesScrollWrapper.style.maxHeight = 'none';
+
+  function renderMatchItem(match) {
     const div = document.createElement('div');
     div.className = 'p-3.5 rounded-xl bg-slate-900/80 border border-slate-700/60 flex items-center justify-between text-xs hover:border-slate-600 transition';
     div.innerHTML = `
@@ -168,8 +180,61 @@ function renderResults(data) {
         <div class="text-[10px] text-slate-500">score</div>
       </div>
     `;
-    matchesList.appendChild(div);
+    return div;
+  }
+
+  // Render initial set (top 5)
+  const visibleMatches = allMatches.slice(0, initialCount);
+  visibleMatches.forEach(match => {
+    matchesList.appendChild(renderMatchItem(match));
   });
+
+  if (matchStats) {
+    matchStats.textContent = `Top ${Math.min(initialCount, allMatches.length)} of ${allMatches.length} candidates`;
+  }
+
+  // Show the "Show All" button only if there are more than 5 matches
+  if (showAllBtn && allMatches.length > initialCount) {
+    showAllBtn.classList.remove('hidden');
+    showAllBtn.classList.add('flex');
+
+    // Remove old listeners by replacing node
+    const newBtn = showAllBtn.cloneNode(true);
+    showAllBtn.parentNode.replaceChild(newBtn, showAllBtn);
+    const btnText = newBtn.querySelector('#showAllBtnText');
+    const btnIcon = newBtn.querySelector('#showAllBtnIcon');
+
+    newBtn.addEventListener('click', () => {
+      isShowingAll = !isShowingAll;
+
+      if (isShowingAll) {
+        // Show all matches
+        matchesList.innerHTML = '';
+        allMatches.forEach(match => {
+          matchesList.appendChild(renderMatchItem(match));
+        });
+        if (matchesScrollWrapper) matchesScrollWrapper.style.maxHeight = '400px';
+        if (matchStats) matchStats.textContent = `Showing all ${allMatches.length} candidates`;
+        if (btnText) btnText.textContent = 'Show Less';
+        if (btnIcon) btnIcon.style.transform = 'rotate(180deg)';
+      } else {
+        // Collapse back to top 5
+        matchesList.innerHTML = '';
+        allMatches.slice(0, initialCount).forEach(match => {
+          matchesList.appendChild(renderMatchItem(match));
+        });
+        if (matchesScrollWrapper) {
+          matchesScrollWrapper.style.maxHeight = 'none';
+          matchesScrollWrapper.scrollTop = 0;
+        }
+        if (matchStats) matchStats.textContent = `Top ${initialCount} of ${allMatches.length} candidates`;
+        if (btnText) btnText.textContent = 'Show All';
+        if (btnIcon) btnIcon.style.transform = 'rotate(0deg)';
+      }
+    });
+  } else if (showAllBtn) {
+    showAllBtn.classList.add('hidden');
+  }
 }
 
 function renderSubmissionResult(data) {

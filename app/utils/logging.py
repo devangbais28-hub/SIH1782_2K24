@@ -3,7 +3,7 @@ import sys
 
 
 def setup_logging(log_level: str = "INFO") -> logging.Logger:
-    logger = logging.getLogger("titleguard")
+    logger = logging.getLogger("nirnay")
     logger.setLevel(getattr(logging, log_level.upper(), logging.INFO))
 
     if not logger.handlers:

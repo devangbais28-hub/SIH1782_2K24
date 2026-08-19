@@ -1,17 +1,18 @@
-# TitleGuard - AI Publication Title Similarity & Conflict Screening System
+# Nirnay - AI Publication Title Similarity & Conflict Screening System
 
-TitleGuard is a production-grade MVP service designed to screen proposed publication titles against a dataset of 6,000+ existing titles using a multi-signal AI retrieval pipeline.
+Nirnay is a production-grade MVP service designed to screen proposed publication titles against a dataset of 6,000+ existing titles using a multi-signal AI retrieval pipeline.
 
 ---
 
 > [!IMPORTANT]
-> **Prototype Disclaimer**: TitleGuard is an automated screening assistant to help flag potential title conflicts. It is NOT an official legal decision system or official government title registration system.
+> **Prototype Disclaimer**: Nirnay is an automated screening assistant to help flag potential title conflicts. It is NOT an official legal decision system or official government title registration system.
 
 ---
 
 ## 🚀 Quickstart Commands
 
 ### 1. Environment Setup
+
 ```powershell
 # Create & activate virtual environment
 python -m venv .venv
@@ -25,6 +26,7 @@ cp .env.example .env
 ```
 
 ### 2. Dataset Validation & Ingestion
+
 ```powershell
 # Step 1: Validate dataset workbook (6,000+ titles check & domain cleanup)
 python -m app.scripts.validate_dataset
@@ -34,16 +36,22 @@ python -m app.scripts.ingest_dataset
 
 # Step 3: Precompute Sentence-BERT embeddings & build FAISS vector index
 python -m app.scripts.build_faiss_index
+
+# Step 4: Build cluster centroids for fast scoped retrieval
+python -m app.scripts.build_clusters
 ```
 
 ### 3. Run Application Server
+
 ```powershell
 # Start FastAPI server on http://localhost:8000
 uvicorn app.main:app --reload
 ```
+
 Open [http://localhost:8000](http://localhost:8000) in your browser for the web screening interface or [http://localhost:8000/docs](http://localhost:8000/docs) for OpenAPI documentation.
 
 ### 4. Testing & Benchmarking
+
 ```powershell
 # Run pytest test suite
 pytest -q
@@ -66,9 +74,11 @@ TitleGuard uses a hybrid 4-pass candidate retrieval and scoring strategy:
 ```
 Final Score = 0.50 * Semantic + 0.30 * Lexical + 0.20 * Phonetic
 ```
-*(Note: If phonetic scoring is unavailable, weights automatically re-normalize to 0.625 Semantic + 0.375 Lexical).*
+
+_(Note: If phonetic scoring is unavailable, weights automatically re-normalize to 0.625 Semantic + 0.375 Lexical)._
 
 ### Decision Risk Levels
+
 - **`POTENTIAL_CONFLICT` / `HIGH`**: Score >= 0.75 or Exact Normalized Title Match found.
 - **`REVIEW_REQUIRED` / `MEDIUM`**: 0.50 <= Score < 0.75.
 - **`NO_STRONG_CONFLICT` / `LOW`**: Score < 0.50.
@@ -76,6 +86,7 @@ Final Score = 0.50 * Semantic + 0.30 * Lexical + 0.20 * Phonetic
 ---
 
 ## 📊 Dataset Schema & Validation Rules
+
 - Source file: `data/dataset_combined_all_6000-v2.xlsx`
 - Sheet name: `Combined Dataset`
 - Required columns: `titles`, `description`, `domain`, `contact_info`
