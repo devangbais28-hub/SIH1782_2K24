@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full bg-slate-900 text-slate-100">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TitleGuard - Submit Publication Title</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="h-full flex flex-col font-sans antialiased selection:bg-indigo-500 selection:text-white">
+
+  <!-- Header -->
+  <header class="border-b border-slate-800 bg-slate-950/80 backdrop-blur sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <div class="flex items-center space-x-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-500 via-purple-500 to-pink-500 flex items-center justify-center shadow-lg shadow-indigo-500/30">
+          <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+        </div>
+        <div>
+          <span class="text-xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white via-slate-200 to-indigo-300">TitleGuard</span>
+          <span class="ml-2 text-xs px-2 py-0.5 rounded-full bg-purple-500/10 text-purple-400 border border-purple-500/20 font-medium">Submission Portal</span>
+        </div>
+      </div>
+      <nav class="flex items-center space-x-4">
+        <a href="/" class="text-sm font-medium text-slate-400 hover:text-slate-200 transition">Verify Title</a>
+        <a href="/verify.html" class="text-sm font-semibold text-indigo-400 border-b-2 border-indigo-500 pb-1">Submit Title</a>
+        <a href="/docs" target="_blank" class="text-sm font-medium text-slate-400 hover:text-slate-200 transition">API Docs</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="flex-1 max-w-4xl w-full mx-auto px-4 py-8 space-y-6">
+    <div class="bg-slate-800/60 border border-slate-700/60 rounded-2xl p-6 shadow-xl backdrop-blur-sm">
+      <h2 class="text-lg font-bold text-white mb-1">Submit Publication Title for Registration</h2>
+      <p class="text-xs text-slate-400 mb-6">Submitting your title executes an automated conflict check. Submissions with high conflict risk are marked as rejected/pending for review.</p>
+
+      <form id="submitForm" class="space-y-4">
+        <div>
+          <label for="subTitle" class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1">Title *</label>
+          <input type="text" id="subTitle" required placeholder="Proposed Publication Title" class="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm">
+        </div>
+
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label for="subDomain" class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1">Domain</label>
+            <input type="text" id="subDomain" value="general" class="w-full px-3 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+          </div>
+          <div>
+            <label for="subLanguage" class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1">Language</label>
+            <input type="text" id="subLanguage" value="English" class="w-full px-3 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+          </div>
+        </div>
+
+        <div>
+          <label for="subContact" class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1">Contact Info (Optional)</label>
+          <input type="text" id="subContact" placeholder="publisher@example.com" class="w-full px-4 py-2 rounded-xl bg-slate-900 border border-slate-700 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm">
+        </div>
+
+        <div>
+          <label for="subDescription" class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1">Description (Optional)</label>
+          <textarea id="subDescription" rows="3" placeholder="Brief summary of publication scope..." class="w-full px-4 py-2 rounded-xl bg-slate-900 border border-slate-700 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm"></textarea>
+        </div>
+
+        <button type="submit" id="submitBtn" class="w-full py-3 px-4 rounded-xl bg-gradient-to-r from-purple-500 to-indigo-600 hover:from-purple-600 hover:to-indigo-700 text-white font-semibold text-sm shadow-lg shadow-purple-500/25 transition">
+          Submit Publication Record
+        </button>
+      </form>
+    </div>
+
+    <!-- Submission Outcome Container -->
+    <div id="submissionOutcome" class="hidden bg-slate-800/60 border border-slate-700/60 rounded-2xl p-6 shadow-xl space-y-4">
+      <div class="flex items-center justify-between border-b border-slate-700/60 pb-3">
+        <h3 class="text-base font-bold text-white">Submission Result</h3>
+        <span id="subStatusBadge" class="text-xs px-3 py-1 rounded-full font-bold uppercase">APPROVED</span>
+      </div>
+      <div class="text-xs text-slate-300 space-y-2">
+        <p><strong>Submission ID:</strong> <span id="subId">#0</span></p>
+        <p><strong>Screening Decision:</strong> <span id="subDecision">NO_STRONG_CONFLICT</span></p>
+        <p><strong>Explanation:</strong> <span id="subExplanation">...</span></p>
+      </div>
+    </div>
+  </main>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>

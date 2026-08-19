@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  titleguard-api:
+    build: .
+    container_name: titleguard_api
+    ports:
+      - "8000:8000"
+    environment:
+      - APP_ENV=development
+      - DATABASE_URL=sqlite:///./storage/titleguard.db
+      - FAISS_INDEX_PATH=./storage/faiss/title_index.faiss
+      - FAISS_ID_MAP_PATH=./storage/faiss/id_map.json
+      - FAISS_METADATA_PATH=./storage/faiss/index_metadata.json
+    volumes:
+      - ./storage:/app/storage
+      - ./data:/app/data
+      - ./output:/app/output
+    restart: unless-stopped

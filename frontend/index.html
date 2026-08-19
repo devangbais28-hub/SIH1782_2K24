@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full bg-slate-900 text-slate-100">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TitleGuard - AI Publication Title Conflict Screening</title>
+  <!-- Google Fonts & Tailwind CDN -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { sans: ['Inter', 'sans-serif'] },
+        }
+      }
+    }
+  </script>
+</head>
+<body class="h-full flex flex-col font-sans antialiased selection:bg-indigo-500 selection:text-white">
+
+  <!-- Header / Navigation -->
+  <header class="border-b border-slate-800 bg-slate-950/80 backdrop-blur sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <div class="flex items-center space-x-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-500 via-purple-500 to-pink-500 flex items-center justify-center shadow-lg shadow-indigo-500/30">
+          <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+        </div>
+        <div>
+          <span class="text-xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white via-slate-200 to-indigo-300">TitleGuard</span>
+          <span class="ml-2 text-xs px-2 py-0.5 rounded-full bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 font-medium">AI Screening Engine</span>
+        </div>
+      </div>
+      <nav class="flex items-center space-x-4">
+        <a href="/" class="text-sm font-semibold text-indigo-400 border-b-2 border-indigo-500 pb-1">Verify Title</a>
+        <a href="/verify.html" class="text-sm font-medium text-slate-400 hover:text-slate-200 transition">Submit Title</a>
+        <a href="/docs" target="_blank" class="text-sm font-medium text-slate-400 hover:text-slate-200 transition">API Docs</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 grid grid-cols-1 lg:grid-cols-12 gap-8">
+    
+    <!-- Input Form Section -->
+    <div class="lg:col-span-5 space-y-6">
+      <div class="bg-slate-800/60 border border-slate-700/60 rounded-2xl p-6 shadow-xl backdrop-blur-sm">
+        <h2 class="text-lg font-bold text-white mb-1 flex items-center gap-2">
+          <svg class="w-5 h-5 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+          Publication Screening Query
+        </h2>
+        <p class="text-xs text-slate-400 mb-6">Screen your proposed title against 6,000+ registered titles using hybrid semantic & lexical AI models.</p>
+
+        <form id="verifyForm" class="space-y-4">
+          <div>
+            <label for="title" class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1">Proposed Title *</label>
+            <input type="text" id="title" required placeholder="e.g. Climate Change News Today" class="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition text-sm">
+          </div>
+
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label for="domain" class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1">Domain</label>
+              <select id="domain" class="w-full px-3 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                <option value="general">general</option>
+                <option value="news-sports">news-sports</option>
+                <option value="news-technology">news-technology</option>
+                <option value="news-environment">news-environment</option>
+                <option value="business">business</option>
+                <option value="health">health</option>
+                <option value="science">science</option>
+                <option value="entertainment">entertainment</option>
+              </select>
+            </div>
+            <div>
+              <label for="language" class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1">Language</label>
+              <input type="text" id="language" value="English" class="w-full px-3 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+            </div>
+          </div>
+
+          <div>
+            <label for="description" class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1">Description (Optional)</label>
+            <textarea id="description" rows="3" placeholder="Brief summary of the publication scope..." class="w-full px-4 py-2 rounded-xl bg-slate-900 border border-slate-700 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm"></textarea>
+          </div>
+
+          <button type="submit" id="verifyBtn" class="w-full py-3 px-4 rounded-xl bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white font-semibold text-sm shadow-lg shadow-indigo-500/25 transition duration-200 flex items-center justify-center space-x-2">
+            <svg id="btnSpinner" class="hidden animate-spin w-4 h-4 text-white" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+            <span id="btnText">Screen Publication Title</span>
+          </button>
+        </form>
+      </div>
+
+      <!-- Disclaimer Banner -->
+      <div class="p-4 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-300 text-xs leading-relaxed flex items-start space-x-3">
+        <svg class="w-5 h-5 text-amber-400 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+        <div>
+          <strong class="font-semibold text-amber-200">Prototype Screening Disclaimer:</strong> This system is an automated AI screening assistant to help identify potential title conflicts. It is not an official legal decision or government title registration.
+        </div>
+      </div>
+    </div>
+
+    <!-- Results Display Section -->
+    <div class="lg:col-span-7 space-y-6">
+      
+      <!-- Placeholder State -->
+      <div id="resultsPlaceholder" class="bg-slate-800/40 border border-slate-700/40 border-dashed rounded-2xl p-12 text-center text-slate-400 flex flex-col items-center justify-center min-h-[420px]">
+        <div class="w-16 h-16 rounded-2xl bg-slate-800 flex items-center justify-center mb-4 text-slate-500">
+          <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+        </div>
+        <h3 class="text-base font-semibold text-slate-300">Ready for Verification</h3>
+        <p class="text-xs max-w-sm mt-1 text-slate-500">Enter a publication title on the left to analyze similarity against 6,000+ indexed titles.</p>
+      </div>
+
+      <!-- Results Container (Hidden initially) -->
+      <div id="resultsContent" class="hidden space-y-6">
+        
+        <!-- Risk & Decision Summary Card -->
+        <div id="decisionCard" class="rounded-2xl p-6 border shadow-xl transition-all">
+          <div class="flex items-center justify-between flex-wrap gap-4 mb-4">
+            <div>
+              <span class="text-xs uppercase tracking-wider font-bold text-slate-400">Screening Result</span>
+              <div id="decisionBadge" class="text-xl font-extrabold tracking-tight mt-0.5">POTENTIAL_CONFLICT</div>
+            </div>
+            <div class="text-right">
+              <span class="text-xs uppercase tracking-wider font-bold text-slate-400">Conflict Score</span>
+              <div id="finalScore" class="text-2xl font-black text-white">0.95</div>
+            </div>
+          </div>
+          <p id="explanationText" class="text-sm text-slate-300 leading-relaxed mb-4 border-t border-slate-700/40 pt-3">Explanation text goes here...</p>
+
+          <!-- Component Score Breakdown -->
+          <div class="grid grid-cols-3 gap-3 bg-slate-950/40 rounded-xl p-3 border border-slate-800 text-xs">
+            <div>
+              <span class="text-slate-400 block">Semantic (50%)</span>
+              <span id="semanticScore" class="font-bold text-indigo-400">0.00</span>
+            </div>
+            <div>
+              <span class="text-slate-400 block">Lexical (30%)</span>
+              <span id="lexicalScore" class="font-bold text-purple-400">0.00</span>
+            </div>
+            <div>
+              <span class="text-slate-400 block">Phonetic (20%)</span>
+              <span id="phoneticScore" class="font-bold text-pink-400">N/A</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Reasons List -->
+        <div class="bg-slate-800/60 border border-slate-700/60 rounded-2xl p-6 shadow-xl">
+          <h3 class="text-sm font-bold text-white uppercase tracking-wider mb-3">Conflict Signals & Reasons</h3>
+          <ul id="reasonsList" class="space-y-2 text-xs"></ul>
+        </div>
+
+        <!-- Top Candidate Matches -->
+        <div class="bg-slate-800/60 border border-slate-700/60 rounded-2xl p-6 shadow-xl">
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="text-sm font-bold text-white uppercase tracking-wider">Top Similar Titles</h3>
+            <span id="matchStats" class="text-xs text-slate-400">Top 5 of 20 candidates</span>
+          </div>
+          <div id="matchesList" class="space-y-3"></div>
+        </div>
+
+      </div>
+
+    </div>
+  </main>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>

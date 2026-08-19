@@ -1,0 +1,23 @@
+# Python & Virtualenv
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+env/
+venv/
+
+# Database & Storage
+storage/*.db
+storage/faiss/*
+!storage/faiss/.gitkeep
+output/*
+!output/.gitkeep
+
+# Environment
+.env
+.env.local
+
+# Pytest / Coverage
+.pytest_cache/
+.coverage
+htmlcov/
